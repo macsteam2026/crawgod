@@ -3,140 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRAWGOD — AI Meme Launcher on Base</title>
+<title>CRAWGOD — AI Meme on Base | Presale Live</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #030712; color: #e2e8f0; font-family: 'Courier New', monospace; min-height: 100vh; overflow-x: hidden; }
+  body { background: #030712; color: #e2e8f0; font-family: -apple-system, sans-serif; min-height: 100vh; overflow-x: hidden; }
   body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(234,179,8,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(234,179,8,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
-  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(234,179,8,0.2); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; background: rgba(3,7,18,0.85); }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(234,179,8,0.2); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; background: rgba(3,7,18,0.9); }
   .logo { font-size: 26px; font-weight: 900; background: linear-gradient(135deg, #eab308, #f97316, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 3px; }
-  .nav-right { display: flex; gap: 12px; align-items: center; }
-  .nav-tag { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: #ca8a04; padding: 6px 14px; border-radius: 20px; font-size: 11px; letter-spacing: 1px; }
-  .buy-btn { background: linear-gradient(135deg, #eab308, #f97316); border: none; color: #000; padding: 10px 24px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 1px; text-decoration: none; }
-  .hero { text-align: center; padding: 80px 20px 50px; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(234,179,8,0.08); border: 1px solid rgba(234,179,8,0.25); color: #ca8a04; padding: 8px 20px; border-radius: 30px; font-size: 12px; letter-spacing: 2px; margin-bottom: 28px; }
-  .dot-live { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
-  .hero h1 { font-size: 62px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; font-family: -apple-system, sans-serif; }
+  .nav-tag { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; padding: 6px 14px; border-radius: 20px; font-size: 11px; letter-spacing: 1px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+  .hero { text-align: center; padding: 70px 20px 40px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); color: #10b981; padding: 8px 20px; border-radius: 30px; font-size: 12px; letter-spacing: 2px; margin-bottom: 24px; }
+  .dot-live { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .hero h1 { font-size: 58px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
   .craw { background: linear-gradient(135deg, #eab308, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .god { background: linear-gradient(135deg, #ef4444, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero p { font-size: 18px; color: #94a3b8; max-width: 580px; margin: 0 auto 40px; line-height: 1.7; font-family: -apple-system, sans-serif; }
-  .contract-box { max-width: 700px; margin: 0 auto 50px; padding: 0 20px; }
-  .contract-card { background: rgba(234,179,8,0.05); border: 2px solid rgba(234,179,8,0.3); border-radius: 16px; padding: 28px; text-align: center; }
-  .contract-label { font-size: 12px; color: #ca8a04; letter-spacing: 2px; margin-bottom: 12px; }
-  .contract-addr { font-size: 15px; color: #e2e8f0; word-break: break-all; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; font-family: monospace; }
-  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: linear-gradient(135deg, #eab308, #f97316); color: #000; padding: 14px 32px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; letter-spacing: 1px; transition: all 0.3s; }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(234,179,8,0.3); }
-  .btn-secondary { background: transparent; border: 1px solid rgba(234,179,8,0.4); color: #ca8a04; padding: 14px 32px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; letter-spacing: 1px; transition: all 0.3s; }
-  .btn-secondary:hover { background: rgba(234,179,8,0.08); }
-  .stats-bar { max-width: 900px; margin: 0 auto 50px; padding: 0 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .stat-card { background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.15); border-radius: 12px; padding: 20px; text-align: center; }
-  .stat-card .big { font-size: 24px; font-weight: 900; font-family: -apple-system, sans-serif; background: linear-gradient(135deg, #eab308, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .stat-card .label { font-size: 10px; color: #64748b; margin-top: 6px; letter-spacing: 1px; }
-  .terminal-container { max-width: 900px; margin: 0 auto 50px; padding: 0 20px; }
-  .terminal { background: rgba(15,23,42,0.95); border: 1px solid rgba(234,179,8,0.25); border-radius: 16px; overflow: hidden; box-shadow: 0 0 60px rgba(234,179,8,0.08); }
-  .terminal-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; background: rgba(234,179,8,0.04); border-bottom: 1px solid rgba(234,179,8,0.15); }
-  .dot { width: 12px; height: 12px; border-radius: 50%; } .dot-red { background: #ef4444; } .dot-yellow { background: #eab308; } .dot-green { background: #10b981; }
-  .terminal-title { margin-left: 10px; font-size: 12px; color: #64748b; letter-spacing: 1px; }
-  .terminal-body { padding: 28px; min-height: 300px; max-height: 450px; overflow-y: auto; }
-  .log-line { display: flex; gap: 12px; margin-bottom: 10px; font-size: 13px; opacity: 0; transform: translateY(8px); transition: all 0.35s ease; align-items: flex-start; }
-  .log-line.visible { opacity: 1; transform: translateY(0); }
-  .log-time { color: #475569; min-width: 80px; } .log-type { min-width: 70px; }
-  .log-type.sys { color: #eab308; } .log-type.ai { color: #f97316; } .log-type.data { color: #06b6d4; } .log-type.ok { color: #10b981; }
-  .log-msg { color: #cbd5e1; flex: 1; line-height: 1.6; }
-  .log-msg .h { color: #f1f5f9; font-weight: 600; } .log-msg .v { color: #06b6d4; } .log-msg .n { color: #eab308; font-weight: 700; } .log-msg .g { color: #10b981; }
-  .cursor { display: inline-block; width: 8px; height: 13px; background: #eab308; animation: blink 1s infinite; vertical-align: middle; margin-left: 4px; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  .tokenomics { max-width: 900px; margin: 0 auto 60px; padding: 0 20px; }
+  .hero p { font-size: 18px; color: #94a3b8; max-width: 560px; margin: 0 auto 30px; line-height: 1.7; }
+
+  /* PRESALE SECTION */
+  .presale-section { max-width: 760px; margin: 0 auto 50px; padding: 0 20px; }
+  .presale-card { background: rgba(16,185,129,0.04); border: 2px solid rgba(16,185,129,0.3); border-radius: 20px; padding: 40px; }
+  .presale-title { font-size: 13px; color: #10b981; letter-spacing: 3px; text-align: center; margin-bottom: 24px; }
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 13px; color: #64748b; margin-bottom: 10px; }
+  .progress-bar { height: 12px; background: rgba(255,255,255,0.05); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #06b6d4); border-radius: 999px; width: 0%; transition: width 1s ease; }
+  .progress-eth { font-size: 28px; font-weight: 900; color: #10b981; text-align: center; margin-top: 12px; }
+  .progress-sub { font-size: 13px; color: #64748b; text-align: center; margin-top: 4px; }
+
+  .price-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 30px; }
+  .price-box { background: rgba(15,23,42,0.6); border: 1px solid rgba(234,179,8,0.15); border-radius: 12px; padding: 16px; text-align: center; }
+  .price-box .val { font-size: 20px; font-weight: 700; color: #eab308; }
+  .price-box .lbl { font-size: 11px; color: #64748b; margin-top: 4px; letter-spacing: 1px; }
+
+  .send-box { background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.2); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+  .send-title { font-size: 13px; color: #ca8a04; letter-spacing: 1px; margin-bottom: 14px; }
+  .send-addr { font-size: 14px; color: #e2e8f0; word-break: break-all; background: rgba(0,0,0,0.4); padding: 14px; border-radius: 8px; font-family: monospace; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+  .send-addr:hover { border-color: rgba(234,179,8,0.4); }
+  .copy-hint { font-size: 11px; color: #475569; margin-top: 8px; text-align: center; }
+  .copied { color: #10b981 !important; }
+
+  .steps { margin-bottom: 20px; }
+  .step { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #eab308, #f97316); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #000; flex-shrink: 0; }
+  .step-text { font-size: 14px; color: #94a3b8; padding-top: 4px; line-height: 1.5; }
+  .step-text strong { color: #e2e8f0; }
+
+  .warning-box { background: rgba(234,179,8,0.05); border: 1px solid rgba(234,179,8,0.2); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #ca8a04; line-height: 1.6; }
+
+  /* TOKEN INFO */
+  .token-section { max-width: 900px; margin: 0 auto 50px; padding: 0 20px; }
   .section-title { font-size: 12px; color: #ca8a04; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
-  .toko-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .toko-card { background: rgba(15,23,42,0.6); border: 1px solid rgba(234,179,8,0.1); border-radius: 12px; padding: 24px; text-align: center; font-family: -apple-system, sans-serif; }
-  .toko-pct { font-size: 36px; font-weight: 900; background: linear-gradient(135deg, #eab308, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .toko-label { font-size: 13px; color: #64748b; margin-top: 6px; }
-  .toko-desc { font-size: 12px; color: #475569; margin-top: 4px; }
-  footer { text-align: center; padding: 40px; border-top: 1px solid rgba(234,179,8,0.08); color: #334155; font-size: 11px; letter-spacing: 1px; line-height: 2; }
+  .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .info-card { background: rgba(15,23,42,0.8); border: 1px solid rgba(234,179,8,0.12); border-radius: 12px; padding: 20px; text-align: center; }
+  .info-card .big { font-size: 22px; font-weight: 900; background: linear-gradient(135deg, #eab308, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .info-card .lbl { font-size: 10px; color: #64748b; margin-top: 6px; letter-spacing: 1px; }
+
+  .contract-section { max-width: 760px; margin: 0 auto 50px; padding: 0 20px; }
+  .contract-card { background: rgba(15,23,42,0.8); border: 1px solid rgba(99,102,241,0.2); border-radius: 14px; padding: 24px; }
+  .contract-label { font-size: 11px; color: #6366f1; letter-spacing: 2px; margin-bottom: 10px; }
+  .contract-addr { font-size: 13px; color: #e2e8f0; word-break: break-all; font-family: monospace; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; margin-bottom: 14px; }
+  .link-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .link-btn { padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+  .link-btn.primary { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; }
+  .link-btn.secondary { background: transparent; border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
+  .link-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+
+  footer { text-align: center; padding: 40px; border-top: 1px solid rgba(234,179,8,0.08); color: #334155; font-size: 11px; letter-spacing: 1px; line-height: 2.2; }
 </style>
 </head>
 <body>
+
 <nav>
   <div class="logo">🦞⚡ CRAWGOD</div>
-  <div class="nav-right">
-    <div class="nav-tag">BASE CHAIN · LIVE</div>
-    <a href="https://app.uniswap.org/swap?outputCurrency=0xd935E09e88FD610e1E1F6f9b9c02383504825412&chain=base" target="_blank" class="buy-btn">BUY </a>
-  </div>
+  <div class="nav-tag">🟢 PRESALE LIVE</div>
 </nav>
 
 <div class="hero">
-  <div class="hero-badge"><span class="dot-live"></span>  LIVE ON BASE</div>
-  <h1><span class="craw">CRAW</span><span class="god">GOD</span><br>Mints. Runs. Wins.</h1>
-  <p>The first AI that launches Meme coins on Base and runs the community autonomously. No humans. No rugs. Just the claw. 🦞⚡</p>
+  <div class="hero-badge"><span class="dot-live"></span> PRESALE OPEN — BASE CHAIN</div>
+  <h1><span class="craw">CRAW</span><span class="god">GOD</span></h1>
+  <p>The first AI-launched, AI-operated meme coin on Base. No team. No VC. 100% fair launch. The claw never sleeps. 🦞⚡</p>
 </div>
 
-<div class="contract-box">
-  <div class="contract-card">
-    <div class="contract-label">✅ VERIFIED CONTRACT ADDRESS — BASE CHAIN</div>
-    <div class="contract-addr">0xd935E09e88FD610e1E1F6f9b9c02383504825412</div>
-    <div class="btn-row">
-      <a href="https://app.uniswap.org/swap?outputCurrency=0xd935E09e88FD610e1E1F6f9b9c02383504825412&chain=base" target="_blank" class="btn-primary">🦞 BUY  ON UNISWAP</a>
-      <a href="https://basescan.org/token/0xd935E09e88FD610e1E1F6f9b9c02383504825412" target="_blank" class="btn-secondary">🔍 VIEW ON BASESCAN</a>
+<!-- PRESALE -->
+<div class="presale-section">
+  <div class="presale-card">
+    <div class="presale-title">⚡ PRESALE ROUND 1</div>
+
+    <div class="progress-wrap">
+      <div class="progress-labels">
+        <span>Raised</span>
+        <span>Goal: 150 ETH</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-eth" id="raisedAmount">0 ETH</div>
+      <div class="progress-sub">raised of 150 ETH goal</div>
+    </div>
+
+    <div class="price-info">
+      <div class="price-box"><div class="val">1 ETH</div><div class="lbl">= 666,667 CRAWG</div></div>
+      <div class="price-box"><div class="val">150 ETH</div><div class="lbl">HARD CAP</div></div>
+      <div class="price-box"><div class="val">10%</div><div class="lbl">OF SUPPLY</div></div>
+    </div>
+
+    <div class="send-box">
+      <div class="send-title">📨 SEND ETH TO THIS ADDRESS (BASE CHAIN)</div>
+      <div class="send-addr" id="copyAddr" onclick="copyAddress()">
+        0xe98128F2737963ec90af0E41329d961C0ABFc3B0
+      </div>
+      <div class="copy-hint" id="copyHint">Click to copy address</div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Send ETH to the address above on <strong>Base chain</strong> (minimum 0.01 ETH)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">$CRAWG tokens will be sent to your wallet <strong>within 24 hours</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">After presale ends, <strong>90% of raised ETH</strong> goes to Uniswap liquidity</div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      ⚠️ Only send ETH on <strong>Base chain</strong>. Do not send from exchanges. This is a community presale — DYOR. NFA.
     </div>
   </div>
 </div>
 
-<div class="stats-bar">
-  <div class="stat-card"><div class="big">1B</div><div class="label">TOTAL SUPPLY</div></div>
-  <div class="stat-card"><div class="big">100%</div><div class="label">FAIR LAUNCH</div></div>
-  <div class="stat-card"><div class="big">0%</div><div class="label">TEAM ALLOC</div></div>
-  <div class="stat-card"><div class="big">BASE</div><div class="label">CHAIN</div></div>
-</div>
-
-<div class="terminal-container">
-  <div class="terminal">
-    <div class="terminal-header">
-      <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-      <div class="terminal-title">CRAWGOD · AI ENGINE · BASE CHAIN · LIVE</div>
-    </div>
-    <div class="terminal-body" id="terminal"></div>
-  </div>
-</div>
-
-<div class="tokenomics">
+<!-- TOKEN INFO -->
+<div class="token-section">
   <div class="section-title">// TOKENOMICS</div>
-  <div class="toko-grid">
-    <div class="toko-card"><div class="toko-pct">100%</div><div class="toko-label">Fair Launch</div><div class="toko-desc">All tokens in liquidity pool</div></div>
-    <div class="toko-card"><div class="toko-pct">0%</div><div class="toko-label">Team Allocation</div><div class="toko-desc">No team tokens. Ever.</div></div>
-    <div class="toko-card"><div class="toko-pct">0%</div><div class="toko-label">VC / Presale</div><div class="toko-desc">No VCs. No presale. Pure community.</div></div>
+  <div class="info-grid">
+    <div class="info-card"><div class="big">1,000,000,000</div><div class="lbl">TOTAL SUPPLY</div></div>
+    <div class="info-card"><div class="big">10%</div><div class="lbl">PRESALE</div></div>
+    <div class="info-card"><div class="big">90%</div><div class="lbl">LIQUIDITY</div></div>
+    <div class="info-card"><div class="big">0%</div><div class="lbl">TEAM / VC</div></div>
+  </div>
+</div>
+
+<!-- CONTRACT -->
+<div class="contract-section">
+  <div class="contract-card">
+    <div class="contract-label">✅ TOKEN CONTRACT — BASE CHAIN</div>
+    <div class="contract-addr">0xd935E09e88FD610e1E1F6f9b9c02383504825412</div>
+    <div class="link-row">
+      <a href="https://basescan.org/token/0xd935E09e88FD610e1E1F6f9b9c02383504825412" target="_blank" class="link-btn primary">🔍 View on BaseScan</a>
+      <a href="https://app.uniswap.org/swap?outputCurrency=0xd935E09e88FD610e1E1F6f9b9c02383504825412&chain=base" target="_blank" class="link-btn secondary">💱 Uniswap (post-presale)</a>
+    </div>
   </div>
 </div>
 
 <footer>
-  🦞⚡ CRAWGOD · AI-NATIVE MEME · BASE CHAIN<br>
-  Contract: 0xd935E09e88FD610e1E1F6f9b9c02383504825412<br>
-  Not financial advice · AI acts autonomously · DYOR
+  🦞⚡ CRAWGOD INVINCIBLE · BASE CHAIN · AI-NATIVE MEME<br>
+  Token Contract: 0xd935E09e88FD610e1E1F6f9b9c02383504825412<br>
+  Presale Wallet: 0xe98128F2737963ec90af0E41329d961C0ABFc3B0<br>
+  🌐 crawgod.fun · Not financial advice · DYOR
 </footer>
 
 <script>
-const logs = [
-  {d:400,  t:'ok',   m:'✅ <span class="n"></span> contract deployed on Base · <span class="v">0xd935E09e88FD610e1E1F6f9b9c02383504825412</span>'},
-  {d:1200, t:'sys',  m:'AI Engine initialized · Scanning market 24/7'},
-  {d:2000, t:'data', m:'Monitoring CT sentiment · <span class="v">2.4M</span> posts analyzed'},
-  {d:2800, t:'ai',   m:'Alpha score: <span class="v">94/100</span> · CRAWGOD narrative: <span class="n">STRONG</span>'},
-  {d:3600, t:'ok',   m:'Liquidity pool active on Uniswap V3 · Base chain'},
-  {d:4400, t:'sys',  m:'🦞⚡ CRAWGOD is fully autonomous. The claw never sleeps.<span class="cursor"></span>'},
-];
-const terminal = document.getElementById('terminal');
-function addLog(log) {
-  const now = new Date();
-  const time = now.toTimeString().slice(0,8);
-  const div = document.createElement('div');
-  div.className = 'log-line';
-  div.innerHTML = '<span class="log-time">'+time+'</span><span class="log-type '+log.t+'">['+log.t.toUpperCase()+']</span><span class="log-msg">'+log.m+'</span>';
-  terminal.appendChild(div);
-  setTimeout(() => div.classList.add('visible'), 50);
-  terminal.scrollTop = terminal.scrollHeight;
+function copyAddress() {
+  navigator.clipboard.writeText('0xe98128F2737963ec90af0E41329d961C0ABFc3B0');
+  const hint = document.getElementById('copyHint');
+  hint.textContent = '✅ Copied!';
+  hint.classList.add('copied');
+  setTimeout(() => { hint.textContent = 'Click to copy address'; hint.classList.remove('copied'); }, 2000);
 }
-logs.forEach(log => setTimeout(() => addLog(log), log.d));
+
+// Animate progress bar (mock — update with real data)
+setTimeout(() => {
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('raisedAmount').textContent = '0 ETH';
+}, 500);
 </script>
 </body>
 </html>
